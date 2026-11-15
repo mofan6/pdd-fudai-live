@@ -232,7 +232,9 @@
       .viewer-subtitle { font-size: 10px; }
       .sync-pill { padding: 7px 9px; font-size: 9px; }
       .frame-card { overflow: visible; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
-    @media (prefers-reduced-motion: reduce) {
+          .frame-wrap { height: 76vh; min-height: 620px; }
+      iframe { top: -210px; height: calc(100% + 210px); min-height: calc(620px + 210px); }
+@media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
     }
   </style>
