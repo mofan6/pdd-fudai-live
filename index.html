@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f7f8fc">
-  <meta name="description" content="PDD福袋互助码实时共享，内容与操作由原站提供。">
+  <meta name="description" content="加入福袋互助，浏览可用码并快速互助。">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0%200%2064%2064'%3E%3Ccircle cx='32' cy='32' r='30' fill='%237b2ff7'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='700'%3EP%3C/text%3E%3C/svg%3E">
   <title>PDD福袋互助码 · 实时共享</title>
   <style>
@@ -207,8 +207,8 @@
       transition: border-color .18s ease, color .18s ease, background .18s ease;
     }
     .tool-button:hover { border-color: rgba(117, 85, 246, .35); color: #654de2; background: #faf9ff; }
-    .frame-wrap { min-height: 680px; background: #f7f8fc; }
-    iframe { display: block; width: 100%; height: min(78vh, 920px); min-height: 680px; border: 0; background: #f7f8fc; }
+    .frame-wrap { position: relative; height: min(78vh, 920px); min-height: 680px; overflow: hidden; background: #f7f8fc; }
+    iframe { position: absolute; top: -82px; left: 0; display: block; width: 100%; height: calc(100% + 82px); min-height: calc(680px + 82px); border: 0; background: #f7f8fc; }
     .footer-note { padding: 12px 5px 0; color: #8a95a8; font-size: 10px; line-height: 1.6; text-align: center; }
     @media (max-width: 900px) {
       .layout { grid-template-columns: 1fr; max-width: 720px; gap: 18px; padding-top: 22px; }
@@ -219,7 +219,8 @@
       .feature-list li { grid-template-columns: 26px 1fr; gap: 7px; }
       .feature-icon { width: 25px; height: 25px; border-radius: 8px; font-size: 11px; }
       .primary-link { max-width: 260px; }
-      .frame-wrap, iframe { min-height: 640px; }
+      .frame-wrap { height: 76vh; min-height: 640px; }
+      iframe { top: -82px; height: calc(100% + 82px); min-height: calc(640px + 82px); }
     }
     @media (max-width: 560px) {
       .topbar { height: 60px; }
@@ -250,8 +251,8 @@
       .toolbar-mark { width: 22px; height: 22px; font-size: 10px; }
       .toolbar-actions { gap: 5px; }
       .tool-button { min-height: 29px; padding: 0 8px; font-size: 9px; }
-      .frame-wrap, iframe { min-height: 620px; }
-      iframe { height: 76vh; }
+      .frame-wrap { height: 76vh; min-height: 620px; }
+      iframe { top: -126px; height: calc(100% + 126px); min-height: calc(620px + 126px); }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
@@ -265,7 +266,7 @@
         <span class="brand-mark" aria-hidden="true">福</span>
         <span><span class="brand-name">福袋互助</span><span class="brand-caption">PDD 实时共享</span></span>
       </a>
-      <a class="top-link" href="https://fudai.y1g.cc/pdd.php" target="_blank" rel="noopener noreferrer">访问原站 <span aria-hidden="true">↗</span></a>
+      <a class="top-link" href="#viewer">开始互助 <span aria-hidden="true">↓</span></a>
     </div>
   </header>
 
@@ -273,37 +274,37 @@
     <aside class="intro" aria-labelledby="page-title">
       <div class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>LIVE · MUTUAL HELP</div>
       <h1 id="page-title">福袋互助，<br>实时共享</h1>
-      <p class="intro-copy">页面内容由原站提供。你可以直接在下方查看互助码，并使用原站的提交、复制和举报功能。</p>
+      <p class="intro-copy">发布自己的福袋互助码，浏览可用状态，和大家互相助力。</p>
       <ul class="feature-list">
-        <li><span class="feature-icon" aria-hidden="true">↻</span><span><span class="feature-title">内容跟随原站更新</span><span class="feature-text">列表和状态来自同一份在线数据</span></span></li>
-        <li><span class="feature-icon" aria-hidden="true">↗</span><span><span class="feature-title">原站操作照常使用</span><span class="feature-text">提交、复制、举报仍由原站处理</span></span></li>
-        <li><span class="feature-icon" aria-hidden="true">◇</span><span><span class="feature-title">页面不另存互助码</span><span class="feature-text">GitHub 页面只负责呈现原站</span></span></li>
+        <li><span class="feature-icon" aria-hidden="true">↻</span><span><span class="feature-title">互助列表实时更新</span><span class="feature-text">可用状态随列表刷新同步</span></span></li>
+        <li><span class="feature-icon" aria-hidden="true">↗</span><span><span class="feature-title">提交与复制一步完成</span><span class="feature-text">输入自己的互助码或复制可用码</span></span></li>
+        <li><span class="feature-icon" aria-hidden="true">◇</span><span><span class="feature-title">手机电脑都能使用</span><span class="feature-text">针对不同屏幕自适应排版</span></span></li>
       </ul>
-      <a class="primary-link" href="https://fudai.y1g.cc/pdd.php" target="_blank" rel="noopener noreferrer">直接打开原站 <span aria-hidden="true">↗</span></a>
-      <p class="privacy-note">如嵌入区域无法加载，可通过上方入口直接访问原站。</p>
+      <a class="primary-link" href="#viewer">进入互助区 <span aria-hidden="true">↓</span></a>
+      <p class="privacy-note">提交的互助码会发送至在线互助服务处理。</p>
     </aside>
 
-    <section class="viewer" aria-label="实时互助页面">
+    <section class="viewer" id="viewer" aria-label="实时互助页面">
       <div class="viewer-heading">
-        <div><div class="viewer-title">互助码共享区</div><div class="viewer-subtitle">连接原站页面与实时列表</div></div>
-        <span class="sync-pill"><span class="live-dot" aria-hidden="true"></span>原站实时数据</span>
+        <div><div class="viewer-title">互助码共享区</div><div class="viewer-subtitle">查看可用码并快速互助</div></div>
+        <span class="sync-pill"><span class="live-dot" aria-hidden="true"></span>实时更新</span>
       </div>
       <div class="frame-card">
         <div class="frame-toolbar">
-          <div class="toolbar-label"><span class="toolbar-mark" aria-hidden="true">福</span>在线互助页面</div>
+          <div class="toolbar-label"><span class="toolbar-mark" aria-hidden="true">福</span>福袋互助码</div>
           <div class="toolbar-actions">
-            <button class="tool-button" id="reload-page" type="button" aria-label="重新加载原站页面">重新加载</button>
-            <a class="tool-button" href="https://fudai.y1g.cc/pdd.php" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;text-decoration:none">原站 ↗</a>
+            <button class="tool-button" id="reload-page" type="button" aria-label="重新加载互助列表">重新加载</button>
+            
           </div>
         </div>
         <div class="frame-wrap">
-          <iframe id="source-page" src="https://fudai.y1g.cc/pdd.php" title="PDD福袋互助码实时共享" allow="clipboard-read; clipboard-write" loading="eager"></iframe>
+          <iframe id="source-page" src="https://fudai.y1g.cc/pdd.php" title="福袋互助码列表" allow="clipboard-read; clipboard-write" loading="eager"></iframe>
         </div>
       </div>
-      <div class="footer-note">页面由原站实时提供 · 操作和数据均在原站完成</div>
+      <div class="footer-note">互助码提交、状态更新和举报由在线互助服务处理</div>
     </section>
   </main>
-  <noscript>请启用 JavaScript，或<a href="https://fudai.y1g.cc/pdd.php">直接访问原站</a>。</noscript>
+  <noscript>请启用 JavaScript 后使用互助页面。</noscript>
   <script>
     document.getElementById('reload-page').addEventListener('click', () => {
       const frame = document.getElementById('source-page');
