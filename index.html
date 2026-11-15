@@ -4,40 +4,311 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f7f8fc">
+  <meta name="description" content="PDD福袋互助码实时共享，内容与操作由原站提供。">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0%200%2064%2064'%3E%3Ccircle cx='32' cy='32' r='30' fill='%237b2ff7'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='700'%3EP%3C/text%3E%3C/svg%3E">
   <title>PDD福袋互助码 · 实时共享</title>
   <style>
-    :root { color-scheme: light; background: #f7f8fc; }
-    * { box-sizing: border-box; }
-    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
-    body { min-height: 100vh; min-height: 100dvh; }
-    iframe {
-      display: block;
-      width: 100%;
-      height: 100vh;
-      height: 100dvh;
-      border: 0;
-      background: #f7f8fc;
+    :root {
+      color-scheme: light;
+      --ink: #19243a;
+      --muted: #68758c;
+      --line: rgba(111, 126, 158, .16);
+      --purple: #7555f6;
+      --cyan: #27b8d5;
+      --paper: rgba(255, 255, 255, .82);
     }
-    noscript {
-      position: fixed;
-      inset: 0;
+    * { box-sizing: border-box; }
+    html { min-height: 100%; background: #f4f6fb; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--ink);
+      font-family: Inter, "SF Pro Display", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+      background:
+        radial-gradient(ellipse at 12% 2%, rgba(117, 85, 246, .13), transparent 36rem),
+        radial-gradient(ellipse at 94% 18%, rgba(39, 184, 213, .12), transparent 32rem),
+        linear-gradient(155deg, #fafbff 0%, #f3f6fb 56%, #eef3f9 100%);
+    }
+    a { color: inherit; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      height: 68px;
+      border-bottom: 1px solid rgba(122, 137, 166, .14);
+      background: rgba(250, 251, 255, .78);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+    .topbar-inner {
+      width: min(1200px, calc(100% - 40px));
+      height: 100%;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .brand { display: flex; align-items: center; gap: 11px; text-decoration: none; }
+    .brand-mark {
       display: grid;
       place-items: center;
-      padding: 24px;
-      font: 16px/1.6 system-ui, sans-serif;
-      text-align: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 13px;
+      color: white;
+      font-size: 19px;
+      font-weight: 800;
+      background: linear-gradient(140deg, #7956f4, #2bbbd8);
+      box-shadow: 0 6px 16px rgba(117, 85, 246, .24);
+    }
+    .brand-name { font-size: 15px; font-weight: 750; letter-spacing: -.02em; }
+    .brand-caption { margin-top: 2px; color: var(--muted); font-size: 11px; }
+    .top-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #46536b;
+      font-size: 13px;
+      font-weight: 650;
+      text-decoration: none;
+      transition: color .18s ease, transform .18s ease;
+    }
+    .top-link:hover { color: var(--purple); transform: translateY(-1px); }
+    .layout {
+      width: min(1200px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 30px 0 38px;
+      display: grid;
+      grid-template-columns: minmax(235px, .82fr) minmax(520px, 1.8fr);
+      align-items: start;
+      gap: 24px;
+    }
+    .intro {
+      position: sticky;
+      top: 92px;
+      overflow: hidden;
+      padding: 27px 25px 24px;
+      border: 1px solid rgba(255, 255, 255, .84);
+      border-radius: 25px;
+      background: linear-gradient(150deg, rgba(255,255,255,.88), rgba(247,249,255,.76));
+      box-shadow: 0 18px 48px rgba(43, 56, 91, .08), inset 0 1px 0 rgba(255,255,255,.9);
+    }
+    .intro::before {
+      content: "";
+      position: absolute;
+      top: -92px;
+      right: -74px;
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(100, 87, 246, .14), transparent 68%);
+      pointer-events: none;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #6f56df;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .15em;
+    }
+    .eyebrow-dot, .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #28b889;
+      box-shadow: 0 0 0 4px rgba(40, 184, 137, .12);
+    }
+    h1 { margin: 19px 0 10px; font-size: clamp(25px, 3vw, 34px); line-height: 1.2; letter-spacing: -.045em; }
+    .intro-copy { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.8; }
+    .feature-list { display: grid; gap: 14px; margin: 25px 0 26px; padding: 0; list-style: none; }
+    .feature-list li { display: grid; grid-template-columns: 30px 1fr; align-items: start; gap: 10px; }
+    .feature-icon {
+      display: grid;
+      place-items: center;
+      width: 29px;
+      height: 29px;
+      border: 1px solid rgba(117, 85, 246, .12);
+      border-radius: 10px;
+      color: #7056e4;
+      background: rgba(117, 85, 246, .07);
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .feature-title { display: block; margin: 1px 0 3px; font-size: 12px; font-weight: 720; }
+    .feature-text { display: block; color: var(--muted); font-size: 11px; line-height: 1.55; }
+    .primary-link {
+      display: flex;
+      min-height: 43px;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 13px;
+      color: #fff;
+      background: linear-gradient(110deg, #7454f3, #4b87f4 63%, #27b8d5);
+      box-shadow: 0 9px 20px rgba(99, 102, 241, .2);
+      font-size: 12px;
+      font-weight: 750;
+      text-decoration: none;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .primary-link:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(99, 102, 241, .28); }
+    .privacy-note { margin: 14px 2px 0; color: #8893a7; font-size: 10px; line-height: 1.6; }
+    .viewer { min-width: 0; }
+    .viewer-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 4px 12px; }
+    .viewer-title { font-size: 14px; font-weight: 780; letter-spacing: -.01em; }
+    .viewer-subtitle { margin-top: 3px; color: var(--muted); font-size: 11px; }
+    .sync-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex: 0 0 auto;
+      padding: 8px 11px;
+      border: 1px solid rgba(38, 181, 135, .18);
+      border-radius: 999px;
+      color: #178664;
+      background: rgba(236, 251, 245, .88);
+      font-size: 10px;
+      font-weight: 730;
+    }
+    .frame-card {
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .92);
+      border-radius: 22px;
+      background: var(--paper);
+      box-shadow: 0 22px 60px rgba(37, 50, 82, .12), 0 3px 10px rgba(37, 50, 82, .04);
+    }
+    .frame-toolbar {
+      display: flex;
+      min-height: 52px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 15px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, .74);
+    }
+    .toolbar-label { display: flex; align-items: center; gap: 9px; font-size: 11px; font-weight: 720; }
+    .toolbar-mark { display: grid; place-items: center; width: 25px; height: 25px; border-radius: 9px; color: #fff; background: linear-gradient(145deg, #7956f4, #2bbbd8); font-size: 12px; font-weight: 800; }
+    .toolbar-actions { display: flex; align-items: center; gap: 7px; }
+    .tool-button {
+      min-height: 32px;
+      padding: 0 10px;
+      border: 1px solid rgba(107, 123, 153, .16);
+      border-radius: 10px;
+      color: #59667d;
       background: #fff;
+      font: inherit;
+      font-size: 10px;
+      font-weight: 680;
+      cursor: pointer;
+      transition: border-color .18s ease, color .18s ease, background .18s ease;
+    }
+    .tool-button:hover { border-color: rgba(117, 85, 246, .35); color: #654de2; background: #faf9ff; }
+    .frame-wrap { min-height: 680px; background: #f7f8fc; }
+    iframe { display: block; width: 100%; height: min(78vh, 920px); min-height: 680px; border: 0; background: #f7f8fc; }
+    .footer-note { padding: 12px 5px 0; color: #8a95a8; font-size: 10px; line-height: 1.6; text-align: center; }
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; max-width: 720px; gap: 18px; padding-top: 22px; }
+      .intro { position: relative; top: auto; padding: 22px; }
+      .intro::before { top: -120px; right: -35px; }
+      h1 { margin-top: 13px; font-size: 27px; }
+      .feature-list { grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 18px 0; }
+      .feature-list li { grid-template-columns: 26px 1fr; gap: 7px; }
+      .feature-icon { width: 25px; height: 25px; border-radius: 8px; font-size: 11px; }
+      .primary-link { max-width: 260px; }
+      .frame-wrap, iframe { min-height: 640px; }
+    }
+    @media (max-width: 560px) {
+      .topbar { height: 60px; }
+      .topbar-inner, .layout { width: calc(100% - 24px); }
+      .brand-mark { width: 34px; height: 34px; border-radius: 11px; }
+      .brand-name { font-size: 13px; }
+      .brand-caption { font-size: 10px; }
+      .top-link { font-size: 11px; }
+      .layout { padding-top: 14px; gap: 13px; }
+      .intro { padding: 18px 17px 16px; border-radius: 19px; }
+      .eyebrow { font-size: 9px; }
+      h1 { margin: 11px 0 6px; font-size: 23px; }
+      .intro-copy { font-size: 11px; line-height: 1.65; }
+      .feature-list { grid-template-columns: 1fr; gap: 9px; margin: 14px 0; }
+      .feature-list li { grid-template-columns: 24px 1fr; }
+      .feature-icon { width: 23px; height: 23px; font-size: 10px; }
+      .feature-title { font-size: 11px; }
+      .feature-text { font-size: 10px; }
+      .primary-link { min-height: 38px; max-width: none; font-size: 11px; }
+      .privacy-note { display: none; }
+      .viewer-heading { padding: 0 2px 9px; }
+      .viewer-title { font-size: 12px; }
+      .viewer-subtitle { font-size: 10px; }
+      .sync-pill { padding: 7px 9px; font-size: 9px; }
+      .frame-card { border-radius: 17px; }
+      .frame-toolbar { min-height: 46px; padding: 7px 9px; }
+      .toolbar-label { gap: 6px; font-size: 10px; }
+      .toolbar-mark { width: 22px; height: 22px; font-size: 10px; }
+      .toolbar-actions { gap: 5px; }
+      .tool-button { min-height: 29px; padding: 0 8px; font-size: 9px; }
+      .frame-wrap, iframe { min-height: 620px; }
+      iframe { height: 76vh; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
     }
   </style>
 </head>
 <body>
-  <iframe
-    src="https://fudai.y1g.cc/pdd.php"
-    title="PDD福袋互助码实时共享"
-    allow="clipboard-read; clipboard-write"
-    loading="eager">
-  </iframe>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="https://mofan6.github.io/pdd-fudai-live/" aria-label="PDD 福袋互助码首页">
+        <span class="brand-mark" aria-hidden="true">福</span>
+        <span><span class="brand-name">福袋互助</span><span class="brand-caption">PDD 实时共享</span></span>
+      </a>
+      <a class="top-link" href="https://fudai.y1g.cc/pdd.php" target="_blank" rel="noopener noreferrer">访问原站 <span aria-hidden="true">↗</span></a>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="intro" aria-labelledby="page-title">
+      <div class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>LIVE · MUTUAL HELP</div>
+      <h1 id="page-title">福袋互助，<br>实时共享</h1>
+      <p class="intro-copy">页面内容由原站提供。你可以直接在下方查看互助码，并使用原站的提交、复制和举报功能。</p>
+      <ul class="feature-list">
+        <li><span class="feature-icon" aria-hidden="true">↻</span><span><span class="feature-title">内容跟随原站更新</span><span class="feature-text">列表和状态来自同一份在线数据</span></span></li>
+        <li><span class="feature-icon" aria-hidden="true">↗</span><span><span class="feature-title">原站操作照常使用</span><span class="feature-text">提交、复制、举报仍由原站处理</span></span></li>
+        <li><span class="feature-icon" aria-hidden="true">◇</span><span><span class="feature-title">页面不另存互助码</span><span class="feature-text">GitHub 页面只负责呈现原站</span></span></li>
+      </ul>
+      <a class="primary-link" href="https://fudai.y1g.cc/pdd.php" target="_blank" rel="noopener noreferrer">直接打开原站 <span aria-hidden="true">↗</span></a>
+      <p class="privacy-note">如嵌入区域无法加载，可通过上方入口直接访问原站。</p>
+    </aside>
+
+    <section class="viewer" aria-label="实时互助页面">
+      <div class="viewer-heading">
+        <div><div class="viewer-title">互助码共享区</div><div class="viewer-subtitle">连接原站页面与实时列表</div></div>
+        <span class="sync-pill"><span class="live-dot" aria-hidden="true"></span>原站实时数据</span>
+      </div>
+      <div class="frame-card">
+        <div class="frame-toolbar">
+          <div class="toolbar-label"><span class="toolbar-mark" aria-hidden="true">福</span>在线互助页面</div>
+          <div class="toolbar-actions">
+            <button class="tool-button" id="reload-page" type="button" aria-label="重新加载原站页面">重新加载</button>
+            <a class="tool-button" href="https://fudai.y1g.cc/pdd.php" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;text-decoration:none">原站 ↗</a>
+          </div>
+        </div>
+        <div class="frame-wrap">
+          <iframe id="source-page" src="https://fudai.y1g.cc/pdd.php" title="PDD福袋互助码实时共享" allow="clipboard-read; clipboard-write" loading="eager"></iframe>
+        </div>
+      </div>
+      <div class="footer-note">页面由原站实时提供 · 操作和数据均在原站完成</div>
+    </section>
+  </main>
   <noscript>请启用 JavaScript，或<a href="https://fudai.y1g.cc/pdd.php">直接访问原站</a>。</noscript>
+  <script>
+    document.getElementById('reload-page').addEventListener('click', () => {
+      const frame = document.getElementById('source-page');
+      frame.src = frame.src;
+    });
+  </script>
 </body>
 </html>
