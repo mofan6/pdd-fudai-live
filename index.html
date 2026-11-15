@@ -75,15 +75,7 @@
       transition: color .18s ease, transform .18s ease;
     }
     .top-link:hover { color: var(--purple); transform: translateY(-1px); }
-    .layout {
-      width: min(1200px, calc(100% - 40px));
-      margin: 0 auto;
-      padding: 30px 0 38px;
-      display: grid;
-      grid-template-columns: minmax(235px, .82fr) minmax(520px, 1.8fr);
-      align-items: start;
-      gap: 24px;
-    }
+    .layout { width: min(880px, calc(100% - 24px)); margin: 0 auto; padding: 18px 0 32px; }
     .intro {
       position: sticky;
       top: 92px;
@@ -208,7 +200,7 @@
     }
     .tool-button:hover { border-color: rgba(117, 85, 246, .35); color: #654de2; background: #faf9ff; }
     .frame-wrap { position: relative; height: min(78vh, 920px); min-height: 680px; overflow: hidden; background: #f7f8fc; }
-    iframe { position: absolute; top: -82px; left: 0; display: block; width: 100%; height: calc(100% + 82px); min-height: calc(680px + 82px); border: 0; background: #f7f8fc; }
+    iframe { position: absolute; top: -184px; left: 0; display: block; width: 100%; height: calc(100% + 184px); min-height: calc(680px + 184px); border: 0; background: #f7f8fc; }
     .footer-note { padding: 12px 5px 0; color: #8a95a8; font-size: 10px; line-height: 1.6; text-align: center; }
     @media (max-width: 900px) {
       .layout { grid-template-columns: 1fr; max-width: 720px; gap: 18px; padding-top: 22px; }
@@ -220,7 +212,7 @@
       .feature-icon { width: 25px; height: 25px; border-radius: 8px; font-size: 11px; }
       .primary-link { max-width: 260px; }
       .frame-wrap { height: 76vh; min-height: 640px; }
-      iframe { top: -82px; height: calc(100% + 82px); min-height: calc(640px + 82px); }
+      iframe { top: -184px; height: calc(100% + 184px); min-height: calc(640px + 184px); }
     }
     @media (max-width: 560px) {
       .topbar { height: 60px; }
@@ -252,7 +244,7 @@
       .toolbar-actions { gap: 5px; }
       .tool-button { min-height: 29px; padding: 0 8px; font-size: 9px; }
       .frame-wrap { height: 76vh; min-height: 620px; }
-      iframe { top: -126px; height: calc(100% + 126px); min-height: calc(620px + 126px); }
+      iframe { top: -228px; height: calc(100% + 228px); min-height: calc(620px + 228px); }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
@@ -271,45 +263,15 @@
   </header>
 
   <main class="layout">
-    <aside class="intro" aria-labelledby="page-title">
-      <div class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>LIVE · MUTUAL HELP</div>
-      <h1 id="page-title">福袋互助，<br>实时共享</h1>
-      <p class="intro-copy">发布自己的福袋互助码，浏览可用状态，和大家互相助力。</p>
-      <ul class="feature-list">
-        <li><span class="feature-icon" aria-hidden="true">↻</span><span><span class="feature-title">互助列表实时更新</span><span class="feature-text">可用状态随列表刷新同步</span></span></li>
-        <li><span class="feature-icon" aria-hidden="true">↗</span><span><span class="feature-title">提交与复制一步完成</span><span class="feature-text">输入自己的互助码或复制可用码</span></span></li>
-        <li><span class="feature-icon" aria-hidden="true">◇</span><span><span class="feature-title">手机电脑都能使用</span><span class="feature-text">针对不同屏幕自适应排版</span></span></li>
-      </ul>
-      <a class="primary-link" href="#viewer">进入互助区 <span aria-hidden="true">↓</span></a>
-      <p class="privacy-note">提交的互助码会发送至在线互助服务处理。</p>
-    </aside>
-
-    <section class="viewer" id="viewer" aria-label="实时互助页面">
-      <div class="viewer-heading">
-        <div><div class="viewer-title">互助码共享区</div><div class="viewer-subtitle">查看可用码并快速互助</div></div>
-        <span class="sync-pill"><span class="live-dot" aria-hidden="true"></span>实时更新</span>
+  <section class="viewer" id="viewer" aria-label="福袋互助列表">
+    <div class="frame-card">
+      <div class="frame-wrap">
+        <iframe id="source-page" src="https://fudai.y1g.cc/pdd.php" title="福袋互助码列表" allow="clipboard-read; clipboard-write" loading="eager"></iframe>
       </div>
-      <div class="frame-card">
-        <div class="frame-toolbar">
-          <div class="toolbar-label"><span class="toolbar-mark" aria-hidden="true">福</span>福袋互助码</div>
-          <div class="toolbar-actions">
-            <button class="tool-button" id="reload-page" type="button" aria-label="重新加载互助列表">重新加载</button>
-            
-          </div>
-        </div>
-        <div class="frame-wrap">
-          <iframe id="source-page" src="https://fudai.y1g.cc/pdd.php" title="福袋互助码列表" allow="clipboard-read; clipboard-write" loading="eager"></iframe>
-        </div>
-      </div>
-      <div class="footer-note">互助码提交、状态更新和举报由在线互助服务处理</div>
-    </section>
-  </main>
+    </div>
+    <div class="footer-note">互助码提交、状态更新和举报由在线互助服务处理</div>
+  </section>
+</main>
   <noscript>请启用 JavaScript 后使用互助页面。</noscript>
-  <script>
-    document.getElementById('reload-page').addEventListener('click', () => {
-      const frame = document.getElementById('source-page');
-      frame.src = frame.src;
-    });
-  </script>
 </body>
 </html>
