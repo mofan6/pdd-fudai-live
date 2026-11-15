@@ -75,7 +75,7 @@
       transition: color .18s ease, transform .18s ease;
     }
     .top-link:hover { color: var(--purple); transform: translateY(-1px); }
-    .layout { width: min(880px, calc(100% - 24px)); margin: 0 auto; padding: 18px 0 32px; }
+    .layout { width: min(560px, calc(100% - 24px)); margin: 0 auto; padding: 18px 0 32px; }
     .intro {
       position: sticky;
       top: 92px;
@@ -165,13 +165,7 @@
       font-size: 10px;
       font-weight: 730;
     }
-    .frame-card {
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, .92);
-      border-radius: 22px;
-      background: var(--paper);
-      box-shadow: 0 22px 60px rgba(37, 50, 82, .12), 0 3px 10px rgba(37, 50, 82, .04);
-    }
+    .frame-card { overflow: visible; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
     .frame-toolbar {
       display: flex;
       min-height: 52px;
@@ -200,7 +194,7 @@
     }
     .tool-button:hover { border-color: rgba(117, 85, 246, .35); color: #654de2; background: #faf9ff; }
     .frame-wrap { position: relative; height: min(78vh, 920px); min-height: 680px; overflow: hidden; background: #f7f8fc; }
-    iframe { position: absolute; top: -184px; left: 0; display: block; width: 100%; height: calc(100% + 184px); min-height: calc(680px + 184px); border: 0; background: #f7f8fc; }
+    iframe { position: absolute; top: -170px; left: 0; display: block; width: 100%; height: calc(100% + 170px); min-height: calc(680px + 170px); border: 0; background: #f7f8fc; }
     .footer-note { padding: 12px 5px 0; color: #8a95a8; font-size: 10px; line-height: 1.6; text-align: center; }
     @media (max-width: 900px) {
       .layout { grid-template-columns: 1fr; max-width: 720px; gap: 18px; padding-top: 22px; }
@@ -212,7 +206,7 @@
       .feature-icon { width: 25px; height: 25px; border-radius: 8px; font-size: 11px; }
       .primary-link { max-width: 260px; }
       .frame-wrap { height: 76vh; min-height: 640px; }
-      iframe { top: -184px; height: calc(100% + 184px); min-height: calc(640px + 184px); }
+      iframe { top: -170px; height: calc(100% + 170px); min-height: calc(640px + 170px); }
     }
     @media (max-width: 560px) {
       .topbar { height: 60px; }
@@ -237,15 +231,7 @@
       .viewer-title { font-size: 12px; }
       .viewer-subtitle { font-size: 10px; }
       .sync-pill { padding: 7px 9px; font-size: 9px; }
-      .frame-card { border-radius: 17px; }
-      .frame-toolbar { min-height: 46px; padding: 7px 9px; }
-      .toolbar-label { gap: 6px; font-size: 10px; }
-      .toolbar-mark { width: 22px; height: 22px; font-size: 10px; }
-      .toolbar-actions { gap: 5px; }
-      .tool-button { min-height: 29px; padding: 0 8px; font-size: 9px; }
-      .frame-wrap { height: 76vh; min-height: 620px; }
-      iframe { top: -228px; height: calc(100% + 228px); min-height: calc(620px + 228px); }
-    }
+      .frame-card { overflow: visible; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
     }
